@@ -27,7 +27,6 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav name={name} />
         <main className="form-signin w-100 m-auto">
           <Routes>
             <Route path="/" exact element={<Home name={name} />} />

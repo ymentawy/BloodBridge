@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from .serializers import UserSerializer
+from rest_framework import status
 from .models import User
 import jwt, datetime
 
@@ -45,6 +46,15 @@ class UserView(APIView):
         user = User.objects.filter(id = payload['id']).first()
         serializer = UserSerializer(user)
         return Response(serializer.data)
+class IDView(APIView):
+    def get(self, request, username):
+        try:
+            user = User.objects.get(username=username)
+            user_id = user.id
+            return Response({'id': user_id}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
 class LogoutView(APIView):
     def post(self,request):
         response = Response()

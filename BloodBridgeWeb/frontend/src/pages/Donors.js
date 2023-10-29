@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import DonorCard from "../components/DonorCard";
+import StatusInfoCard from "../components/StatusInfoCard";
 
 function Donors(props) {
   const [donors, setDonors] = useState([]);
-
+  const [selectedDonor, setSelectedDonor] = useState(null);
+  const handleDonorClick = (donor) => {
+    setSelectedDonor(donor);
+  };
+  const handleDonorDismiss = () => {
+    setSelectedDonor(null);
+  };
   useEffect(() => {
     const fetchDonors = async () => {
       try {
@@ -34,10 +41,16 @@ function Donors(props) {
     };
 
     fetchDonors();
-  }, []); 
+  }, []);
 
   return (
     <div>
+      {selectedDonor && (
+        <StatusInfoCard
+          person={selectedDonor}
+          handleDismiss={handleDonorDismiss}
+        />
+      )}
       <div
         style={{
           display: "flex",
@@ -51,7 +64,12 @@ function Donors(props) {
         <div style={{ marginRight: "80px" }}>Status</div>
       </div>
       {donors.map((donor, index) => (
-        <DonorCard key={index} person={donor} style={{ marginLeft: "auto" }} />
+        <DonorCard
+          onClick={() => handleDonorClick(donor)}
+          key={index}
+          person={donor}
+          style={{ marginLeft: "auto" }}
+        />
       ))}
     </div>
   );
