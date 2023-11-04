@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import LoginSignUp from "./pages/LoginSignup.js";
 import Home from "./pages/Home";
 import React, { useState, useEffect } from "react";
 import Logout from "./pages/Logout.js";
@@ -26,19 +25,12 @@ function App() {
   });
   return (
     <div className="App">
-      <BrowserRouter>
-        <main className="form-signin w-100 m-auto">
           <Routes>
             <Route path="/" exact element={<Home name={name} />} />
-            <Route path="/login" element={<Login setName={setName} />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/logout" element={<Logout setName={setName} />} />
+            <Route path="/LoginSignup" element={<LoginSignUp setName={setName} />} />
+            <Route path="/Donors" element={<Donors setName={setName} />} />
+            <Route path="/Logout" element={<Logout setName={setName} />} />
           </Routes>
-        </main>
-        <Routes>
-          <Route path="/donors" element={<Donors setName={setName} />} />
-        </Routes>
-      </BrowserRouter>
     </div>
   );
 }
