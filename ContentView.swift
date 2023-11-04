@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Practice
+//  BloodBridge
 //
 //  Created by muhammad abdelmohsen on 06/07/2023.
 //
@@ -26,7 +26,6 @@ struct User_View: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
-               
                 Image("BloodIcon-removebg")
                     .resizable()
                     .padding([.leading, .bottom, .trailing], 20.0)
@@ -44,6 +43,7 @@ struct User_View: View {
                         .cornerRadius(20) // Round the corners
                         .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
                         .padding(.horizontal)
+
                 }
                 .navigationTitle("")
                 
@@ -60,7 +60,7 @@ struct User_View: View {
                         .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
                         .padding()
                 }
-                .navigationTitle("SignUp")
+                .navigationTitle(" SignUp ")
                 
                 NavigationLink(destination: ForgotPassView(), isActive: $showNewView3) {
                     Text("Forgot Password?")
@@ -71,8 +71,9 @@ struct User_View: View {
                 }
                 .navigationTitle("")
             }
-        }
+        }.navigationBarBackButtonHidden(true)
     }
+
 
     
 }
@@ -80,8 +81,7 @@ struct LOGINview: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showMainMenu = false
-    
-    
+
     var body: some View {
         ZStack {
             Image("Image 1")
@@ -90,7 +90,7 @@ struct LOGINview: View {
                 .opacity(0.18)
             
             VStack(spacing: 0) {
-                ( Text("Log In").padding()
+                (Text("Log In").padding()
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.black)
@@ -100,14 +100,13 @@ struct LOGINview: View {
                     .shadow(color: .red, radius: 5, x: 0, y: 5)
                 ).padding(.bottom, 70.0)
                 
-                
                 VStack(spacing: 8) {
                     Text("Enter Your Email:")
                         .fontWeight(.bold)
                         .foregroundColor(.red)
                     
                     TextField("Your Email..", text: $email)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                        .frame(maxWidth: .infinity)
                         .frame(height: 50.0)
                         .padding(.horizontal, 20)
                         .background(Color.white)
@@ -123,7 +122,7 @@ struct LOGINview: View {
                         .foregroundColor(.red)
                     
                     SecureField("Your Password..", text: $password)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                        .frame(maxWidth: .infinity)
                         .frame(height: 50.0)
                         .padding(.horizontal, 20)
                         .background(Color.white)
@@ -145,19 +144,20 @@ struct LOGINview: View {
                         .background(Color.red)
                         .cornerRadius(10)
                 }.padding()
-                    .background(
-                        NavigationLink("", destination: WelcomeMenu()
-                            .navigationBarBackButtonHidden(true) // Hide the back button
-                                    .navigationBarTitle("") // Clear the title
-                                    .navigationBarHidden(false)
-                                       ,isActive: $showMainMenu)
-                    )
             }
-            .padding()
         }
+        .background(
+            NavigationLink("", destination: WelcomeMenu()
+                .navigationBarTitle("") // Clear the title
+                ,isActive: $showMainMenu)
+        )
+        
+        
     }
-    
 }
+
+
+
 
 struct SIGNupView: View {
     @State var email: String = ""
@@ -339,98 +339,116 @@ struct WelcomeMenu: View {
     @State private var selectedGender: String = ""
     @State private var showprofile = false
     @State private var showHospitalAlert = false
+    @State private var BacktoUserView = false
     
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Hello, \(userName)")
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .padding(.bottom,20)
-                    .foregroundColor(.red)
-                    .frame()
-                    .shadow(color: .gray, radius: 20)
+        VStack {
+            Text("Hello, \(userName)")
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .padding(.bottom,20)
+                .foregroundColor(.red)
+                .frame()
+                .shadow(color: .gray, radius: 20)
             
-                Image("mainbloocpic").resizable().aspectRatio(contentMode: .fit).padding()
-                 
-                Button(action: {
-                    IsListOfHospital = true
-                }) {
-                    Text("List of Hospitals")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .fontWeight(.bold)
-                }.padding()
-                    .sheet(isPresented: $IsListOfHospital) {
-                        NavigationView {
-                            VStack{
-                                HospitalListView(selectedHospitals: $selectedhosp).foregroundColor(.red)
-                                    .navigationTitle("")
-                                    .navigationBarItems(
-                                        leading:
-                                            Button(action: {
-                                                IsListOfHospital = false
-                                            }) {
-                                                Text("Back").foregroundColor(.black)
-                                            }
-                                    )
-                            }
+            Image("mainbloocpic").resizable().aspectRatio(contentMode: .fit).padding()
+            
+            Button(action: {
+                IsListOfHospital = true
+            }) {
+                Text("List of Hospitals")
+                    .font(.headline)
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+            }.padding()
+                .sheet(isPresented: $IsListOfHospital) {
+                    NavigationView {
+                        VStack{
+                            HospitalListView(selectedHospitals: $selectedhosp).foregroundColor(.red)
+                                .navigationTitle("")
+                                .navigationBarItems(
+                                    leading:
+                                        Button(action: {
+                                            IsListOfHospital = false
+                                        }) {
+                                            Text("Back").foregroundColor(.black)
+                                        }
+                                )
                         }
-                        Button(action: {
-                            showHospitalAlert = true
-
-                        }) {
-                            Text("Donate")
-                                .font(.headline)
-                                .padding()
-                                .background(Color.red)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                                .fontWeight(.bold)
-                        }
-                        .padding()
-                        .alert(isPresented: $showHospitalAlert){
-                            Alert(title: Text(""),
-                                  message: Text("Selected Hospital will Contact You Shortly")
-                            )
-                        
-                        }
-
                     }
+                    Button(action: {
+                        showHospitalAlert = true
+                        
+                    }) {
+                        Text("Donate")
+                            .font(.headline)
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .fontWeight(.bold)
+                    }
+                    .padding()
+                    .alert(isPresented: $showHospitalAlert){
+                        Alert(title: Text(""),
+                              message: Text("Selected Hospital will Contact You Shortly")
+                        )
+                        
+                    }
+                    
+                }
+            
+            
+            Button(action: {
+                showprofile = true
                 
+            }) {
+                Text("Show Profile")
+                    .font(.headline)
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
                 
-                Button(action: {
-                    showprofile = true
-                    
-                }) {
-                    Text("Show Profile")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .fontWeight(.bold)
-                    
-                }.padding()
-               
-                NavigationLink("", destination: ProfileView(UserNames: "Mohamed Abdelmohsen", Email: "Abdelmohsen@aucegypt.edu", Phone: "01110966552", Age: 21, Gender: "Male")
-                               , isActive: $showprofile)
-                    
+            }.padding()
+            
+            NavigationLink("", destination: ProfileView(UserNames: "Mohamed Abdelmohsen", Email: "Abdelmohsen@aucegypt.edu", Phone: "01110966552", Age: 21, Gender: "Male")
+                           , isActive: $showprofile)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitle("", displayMode: .inline) // Clear the title
+            
+            Button(action:{
+                BacktoUserView=true
+                
+            }){
+                
+                Text("Sign Out")
+                    .font(.headline)
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                
+            }.background(
+                NavigationLink("", destination: User_View(), isActive: $BacktoUserView)
+                    .navigationTitle("")
+                
+            )                    .navigationBarBackButtonHidden(false)
 
-                
-                // Here, you can present the user's profile view
-                
-                
-                
-            }
+            
         }
+        
+        
     }
-    
 }
+    
+
 
 
 //struct RequestPage: View{
@@ -538,8 +556,7 @@ struct ProfileView: View {
                 ProfileInfoView(title: "Email:", content: Email)
                 ProfileInfoView(title: "Phone:", content: Phone)
                 ProfileInfoView(title: "Age:", content: "\(Age)").fontWeight(.heavy)
-                                .navigationBarTitle("") // Clear the title
-                                .navigationBarHidden(false)
+                               
             }
         }
     }
