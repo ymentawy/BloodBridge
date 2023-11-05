@@ -1,18 +1,18 @@
-import logo from "./logo.svg";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import React, { useState, useEffect } from "react";
 import Logout from "./pages/Logout.js";
 import Donors from "./pages/Donors.js";
+import LoginSignup from "./pages/LoginSignup.js";
 
 function App() {
   const [name, setName] = useState("");
+
   useEffect(() => {
     (async () => {
       const response = await fetch("http://localhost:8000/api/user", {
@@ -21,23 +21,27 @@ function App() {
         credentials: "include",
       });
       const content = await response.json();
-      setName(content.name);
+      setName(content.username);
     })();
-  });
+  }, []);
+
   return (
-    <div className="App">
+    <div className="App" style={{ display: "flex", minHeight: "100vh" }}>
       <BrowserRouter>
-        <main className="form-signin w-100 m-auto">
+        {name && <Sidebar />}
+        <div style={{ flex: 1 }}>
           <Routes>
             <Route path="/" exact element={<Home name={name} />} />
-            <Route path="/login" element={<Login setName={setName} />} />
-            <Route path="/register" element={<Register />} />
+            {/* <Route path="/login" element={<Login setName={setName} />} /> */}
+            <Route
+              path="/LoginSignup"
+              element={<LoginSignup setName={setName} />}
+            />
+            {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/logout" element={<Logout setName={setName} />} />
+            <Route path="/donors" element={<Donors name={name} />} />
           </Routes>
-        </main>
-        <Routes>
-          <Route path="/donors" element={<Donors setName={setName} />} />
-        </Routes>
+        </div>
       </BrowserRouter>
     </div>
   );

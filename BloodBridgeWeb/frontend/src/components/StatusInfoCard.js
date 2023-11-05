@@ -15,7 +15,7 @@ import IconButton from "@mui/material/IconButton";
 
 function StatusInfoCard(props) {
   let borderColor, backgroundColor, fontFamily;
-  fontFamily = "Comic Sans MS, sans-serif";
+  fontFamily = "Roboto, sans-serif";
   if (props.person.status === "Rejected") {
     borderColor = "red";
     backgroundColor = "lightcoral";
@@ -44,6 +44,9 @@ function StatusInfoCard(props) {
   };
   const handleDismiss = () => {
     props.handleDismiss();
+  };
+  const handleSubmit = () => {
+    props.handleSubmit(isChecked, message);
   };
 
   return (
@@ -248,6 +251,7 @@ function StatusInfoCard(props) {
                       marginLeft: "10px",
                     }}
                     variant="contained"
+                    onClick={handleSubmit}
                   >
                     Submit
                   </Button>

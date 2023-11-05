@@ -6,14 +6,17 @@ from .serializers import UserSerializer
 from rest_framework import status
 from .models import User
 import jwt, datetime
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     def post(self,request):
         serializer = UserSerializer(data = request.data)
         serializer.is_valid(raise_exception= True)
         serializer.save()
         return Response(serializer.data)
-    
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     def post(self,request):
         username = request.data['username']
@@ -34,6 +37,7 @@ class LoginView(APIView):
         response.data = {"jwt":token}
         response.set_cookie(key = 'jwt', value = token, httponly= True)
         return response
+@method_decorator(csrf_exempt, name='dispatch')
 class UserView(APIView):
     def get(self,request):
         token = request.COOKIES.get('jwt')

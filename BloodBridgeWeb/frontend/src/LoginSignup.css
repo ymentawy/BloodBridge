@@ -1,3 +1,20 @@
+/* body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: auto;
+    background: linear-gradient(#DB1013, #f0c3c3);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;}
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  } */
 .container{
     display: flex;
     flex-direction: column;
@@ -62,6 +79,13 @@
 }
 
 .forgot-password{
+    padding-left: 60px;
+    margin-top: 27px;
+    color: #797979;
+    font-size: 18px;
+}
+
+.message{
     padding-left: 60px;
     margin-top: 27px;
     color: #797979;

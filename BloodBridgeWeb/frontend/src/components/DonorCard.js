@@ -5,10 +5,11 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import "../App.css";
 
 function DonorCard(props) {
   let borderColor, backgroundColor, fontFamily;
-  fontFamily = "Comic Sans MS, sans-serif";
+  fontFamily = "Roboto, sans-serif";
   if (props.person.status === "Rejected") {
     borderColor = "red";
     backgroundColor = "lightcoral";
@@ -33,6 +34,7 @@ function DonorCard(props) {
           padding: 2,
           backgroundColor: "white",
           transition: "0.3s",
+          userSelect: "none",
           "&:hover": {
             boxShadow: 5,
           },

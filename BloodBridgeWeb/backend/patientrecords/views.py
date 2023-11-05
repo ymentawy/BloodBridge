@@ -32,7 +32,7 @@ class PatientRecordListView(APIView):
             if patient_users.exists():
                 patient_user = model_to_dict(patient_users.first())
                 patient_user_data.update(patient_user)
-                del patient_user_data['username']
+                patient_user_data['username']
                 del patient_user_data['expiration']
             patient_details.append(patient_user_data)
 
