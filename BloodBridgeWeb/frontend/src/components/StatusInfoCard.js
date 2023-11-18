@@ -223,7 +223,7 @@ function StatusInfoCard(props) {
                 >
                   <div style={{ maxHeight: "100px", overflowY: "auto" }}>
                     <TextField
-                      label=""
+                      label="Input Reason"
                       variant="outlined"
                       fullWidth
                       border="red"

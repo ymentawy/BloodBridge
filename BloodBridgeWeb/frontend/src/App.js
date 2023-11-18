@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Inventory from "./pages/Inventory";
 import Home from "./pages/Home";
 import Logout from "./pages/Logout.js";
 import Donors from "./pages/Donors.js";
@@ -32,14 +31,13 @@ function App() {
         <div style={{ flex: 1 }}>
           <Routes>
             <Route path="/" exact element={<Home name={name} />} />
-            {/* <Route path="/login" element={<Login setName={setName} />} /> */}
             <Route
-              path="/LoginSignup"
+              path="/loginsignup"
               element={<LoginSignup setName={setName} />}
             />
-            {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/logout" element={<Logout setName={setName} />} />
             <Route path="/donors" element={<Donors name={name} />} />
+            <Route path="/inventory" element={<Inventory name={name} />} />
           </Routes>
         </div>
       </BrowserRouter>

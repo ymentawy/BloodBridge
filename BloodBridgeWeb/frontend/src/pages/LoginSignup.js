@@ -70,7 +70,7 @@ const LoginSignup = (props) => {
         props.setName(content.username);
         setUsername("");
         setPassword("");
-        navigate("/Donors"); // Navigates to the Donors page
+        navigate("/donors"); // Navigates to the Donors page
       } else {
         setMessage(
           "Invalid credentials. Please provide a username and password."

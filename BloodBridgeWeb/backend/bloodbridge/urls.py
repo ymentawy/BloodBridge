@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users.urls')),
     path('api/patientusers/', include('patientusers.urls')),
-    path('api/patientrecords/', include('patientrecords.urls'))
+    path('api/patientrecords/', include('patientrecords.urls')),
+    path('api/inventory/', include('inventory.urls'))
 ]
 
