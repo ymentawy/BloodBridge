@@ -1,11 +1,14 @@
 //
 //  ContentView.swift
-//  BloodBridge
+//  Practice
 //
 //  Created by muhammad abdelmohsen on 06/07/2023.
 //
 
 import SwiftUI
+import Foundation
+import MapKit
+
 
 struct ContentView: View {
     var body: some View {
@@ -17,430 +20,122 @@ struct ContentView: View {
 }
 
 
-struct User_View: View {
-    @State private var showNewView  = false
-    @State private var showNewView2 = false
-    @State private var showNewView3 = false
-    
-    
-    var body: some View {
-        NavigationView {
-            VStack(spacing: 10) {
-                Image("BloodIcon-removebg")
-                    .resizable()
-                    .padding([.leading, .bottom, .trailing], 20.0)
-                    .frame(width: 400, height: 320)
-                    .alignmentGuide(.top) { _ in 0 } // Aligns the image at the top
-                
-                NavigationLink(destination: LOGINview(), isActive: $showNewView) {
-                    Text("Login")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(Color.red)
-                        .cornerRadius(20) // Round the corners
-                        .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
-                        .padding(.horizontal)
-
-                }
-                .navigationTitle("")
-                
-                NavigationLink(destination: SIGNupView(), isActive: $showNewView2) {
-                    Text("Not part of BloodBridge?                              Create your Account now")
-                        .underline(true)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.red)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(Color.white) // Background color
-                        .cornerRadius(20) // Round the corners
-                        .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
-                        .padding()
-                }
-                .navigationTitle(" SignUp ")
-                
-                NavigationLink(destination: ForgotPassView(), isActive: $showNewView3) {
-                    Text("Forgot Password?")
-                        .font(.custom("Times New Roman", size: 15))
-                        .underline(true, color: .blue)
-                        .foregroundColor(.blue)
-                        .padding(-3)
-                }
-                .navigationTitle("")
-            }
-        }.navigationBarBackButtonHidden(true)
-    }
-
-
-    
-}
-struct LOGINview: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var showMainMenu = false
-
-    var body: some View {
-        ZStack {
-            Image("Image 1")
-                .resizable()
-                .foregroundColor(Color.red)
-                .opacity(0.18)
-            
-            VStack(spacing: 0) {
-                (Text("Log In").padding()
-                    .font(.title)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.black)
-                    .frame(height: 30).padding()
-                    .background(.white)
-                    .cornerRadius(20)
-                    .shadow(color: .red, radius: 5, x: 0, y: 5)
-                ).padding(.bottom, 70.0)
-                
-                VStack(spacing: 8) {
-                    Text("Enter Your Email:")
-                        .fontWeight(.bold)
-                        .foregroundColor(.red)
-                    
-                    TextField("Your Email..", text: $email)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50.0)
-                        .padding(.horizontal, 20)
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .overlay(RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray, lineWidth: 1))
-                        .padding()
-                }
-                
-                VStack(spacing: 8) {
-                    Text("Enter Your Password:")
-                        .fontWeight(.bold)
-                        .foregroundColor(.red)
-                    
-                    SecureField("Your Password..", text: $password)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50.0)
-                        .padding(.horizontal, 20)
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .overlay(RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray, lineWidth: 1))
-                        .padding()
-                }
-                
-                Button(action: {
-                    showMainMenu = true
-                }) {
-                    Text("Login")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 20)
-                        .background(Color.red)
-                        .cornerRadius(10)
-                }.padding()
-            }
-        }
-        .background(
-            NavigationLink("", destination: WelcomeMenu()
-                .navigationBarTitle("") // Clear the title
-                ,isActive: $showMainMenu)
-        )
-        
-        
-    }
-}
-
-
-
-
-struct SIGNupView: View {
-    @State var email: String = ""
-    @State var pass: String = ""
-    @State private var Confirmpassword: String = ""
-    @State var BLOOD = false
-    @State var selectedBloodType:String = ""
-    
-    
-    var body: some View {
-        ZStack{ Image("Image 1")
-                .renderingMode(.original)
-                .resizable()
-                .opacity(0.18)
-            VStack(spacing:0) {
-                
-                HStack(spacing:0) {
-                    Text("Be part of ")
-                        .font(.title3)
-                        .fontWeight(.heavy)
-                        .foregroundColor(.black) // Set the color of the first part to black
-                    
-                    Text("BloodBridge")
-                        .font(.title3)
-                        .fontWeight(.heavy)
-                        .foregroundColor(.red) // Set the color of "BloodBridge" to red
-                    
-                    Text("!")
-                        .font(.title3)
-                        .fontWeight(.heavy)
-                        .foregroundColor(.black) // Set the color of the exclamation mark to black
-                }
-                .frame(height: 30)
-                .padding()
-                .background(Color.white) // Set the background color to white
-                .cornerRadius(20)
-                .shadow(color: .red, radius: 5, x: 0, y: 5)
-                .padding(.bottom, 50.0)
-                
-                
-                Text("Enter Your Email")
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .padding(.top, 20)
-                
-                TextField("Your Email..", text: $email)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .frame(height: 50.0)
-                    .padding(.horizontal, 20)
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray, lineWidth: 1))
-                    .padding()
-                
-                Text("Enter Your Password")
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                
-                
-                SecureField("Your Password..", text: $pass)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .frame(height: 50.0)
-                    .padding(.horizontal, 20)
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray, lineWidth: 1))
-                    .padding()
-                
-                Text("Confirm Your Password")
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                
-                
-                SecureField("Your Password..", text: $Confirmpassword)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .frame(height: 50.0)
-                    .padding(.horizontal, 20)
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray, lineWidth: 1))
-                    .padding()
-                
-                
-                NavigationLink(destination: BloodTypeSelectionView(selectedBloodType:$selectedBloodType), isActive: $BLOOD) {
-                    // Button label and styling
-                    Text("Next")
-                        .font(.custom("Arial", size: 18))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 20)
-                        .cornerRadius(10)
-                        .frame(maxWidth: 130)
-                        .frame(height: 50)
-                        .background(Color.red) // Background color
-                        .cornerRadius(15) // Round the corners
-                        .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
-                    
-                }.navigationTitle("").padding()
-                
-            }
-        }
-    }
-    
-}
-
-struct ForgotPassView: View {
-    @State var email: String = ""
-    @State var ViewPass = false
-    
-    var body: some View {
-        
-        VStack {
-            Image("Imageblood")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding()
-            Text("Trouble with logging in?")
-                .font(.custom("Times New Roman", size: 25))
-                .fontWeight(.heavy)
-                .padding(.bottom, 20)
-                .padding(.horizontal, 20)
-                .foregroundColor(.red)
-            
-            Text("Enter your email address, phone number, or username, and we'll send you a link to get back into your account")
-                .foregroundColor(.red)
-                .font(.custom("Times New Roman", size: 15))
-                .padding()
-            
-            TextField("Your Email..", text: $email)
-                .frame(width: 250.0, height: 50.0)
-                .padding(.horizontal, 20)
-                .background(Color.white) // Set background color
-                .cornerRadius(8)
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.black, lineWidth: 1))
-                .padding(.bottom, 10)
-            
-            Button(action: {
-                // Action to perform when the button is tapped
-                print("Link Sent Successfully")
-                ViewPass=true
-            }) {
-                Text("Send Login Link")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 20)
-                    .background(Color.red)
-                    .cornerRadius(10)
-            }
-            .padding(.top, 20)
-            .alert(isPresented: $ViewPass){
-                Alert(
-                    title: Text(""),
-                    message: Text("Email has been sent successfully")
-                )
-            }
-          
-            }
-        }
-}
-
-
-
 struct WelcomeMenu: View {
-    @State private var IsListOfHospital = false
+    @State private var isListOfHospitalPresented = false
+    @State private var IsListOfBloodDrives = false
     @State private var isConfirmed = false
     @State private var isProfileShown = false
-    @State private var userName: String = "User"
+    @State private var userName: String = "Mohamed"
     @State private var selectedhosp: String = ""
     @State private var gender = false
     @State private var selectedGender: String = ""
     @State private var showprofile = false
     @State private var showHospitalAlert = false
     @State private var BacktoUserView = false
+    @State private var NavigateToWelcome = false
+    @State private var selectedOption: Int?
+    @State private var isAlertPresented = false
+    @State private var isSystemMode = false
+    @State private var isDarkMode = false
+
     
     
     var body: some View {
         VStack {
+            HStack {
+                Button(action: {
+                    showprofile.toggle()
+                    
+                }) {
+                    Image(systemName: "person.circle")
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.all, 5.0)
+                    .font(.system(size: 20)) // Adjust the font size
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(10)
+                    .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                    
+                }.padding(.leading, 300.0)
+                    .padding(.top, -70)
+                .background(
+                
+                NavigationLink("", destination: ProfileView(UserNames: "Mohamed Abdelmohsen", Email: "Abdelmohsen@aucegypt.edu", Phone: "01110966552", Age: 21, Gender: "Male")
+                               , isActive: $showprofile)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitle("", displayMode: .inline) // Clear the title
+                ) // Align to the trailing edge
+            }
             Text("Hello, \(userName)")
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .padding(.bottom,20)
-                .foregroundColor(.red)
+                .foregroundColor(.black)
                 .frame()
                 .shadow(color: .gray, radius: 20)
             
             Image("mainbloocpic").resizable().aspectRatio(contentMode: .fit).padding()
             
             Button(action: {
-                IsListOfHospital = true
-            }) {
-                Text("List of Hospitals")
-                    .font(.headline)
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .fontWeight(.bold)
-            }.padding()
-                .sheet(isPresented: $IsListOfHospital) {
-                    NavigationView {
-                        VStack{
-                            HospitalListView(selectedHospitals: $selectedhosp).foregroundColor(.red)
-                                .navigationTitle("")
-                                .navigationBarItems(
-                                    leading:
-                                        Button(action: {
-                                            IsListOfHospital = false
-                                        }) {
-                                            Text("Back").foregroundColor(.black)
-                                        }
-                                )
-                        }
-                    }
-                    Button(action: {
-                        showHospitalAlert = true
-                        
-                    }) {
-                        Text("Donate")
-                            .font(.headline)
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .fontWeight(.bold)
-                    }
-                    .padding()
-                    .alert(isPresented: $showHospitalAlert){
-                        Alert(title: Text(""),
-                              message: Text("Selected Hospital will Contact You Shortly")
-                        )
-                        
-                    }
-                    
+                    isAlertPresented = true
+                }) {
+                    Text("Donate Now!")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .fontWeight(.bold)
+                        .cornerRadius(15)
+                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
                 }
-            
-            
-            Button(action: {
-                showprofile = true
-                
-            }) {
-                Text("Show Profile")
-                    .font(.headline)
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .fontWeight(.bold)
-                
-            }.padding()
-            
-            NavigationLink("", destination: ProfileView(UserNames: "Mohamed Abdelmohsen", Email: "Abdelmohsen@aucegypt.edu", Phone: "01110966552", Age: 21, Gender: "Male")
-                           , isActive: $showprofile)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitle("", displayMode: .inline) // Clear the title
-            
+                .alert(isPresented: $isAlertPresented) {
+                    Alert(
+                        title: Text("Choose Donation Type"),
+                        message: Text("Select an option to proceed."),
+                        primaryButton: .default(Text("Bloodmobiles").foregroundColor(.blue)) {
+                            selectedOption = 1
+                            IsListOfBloodDrives.toggle()
+                        },
+                        secondaryButton: .default(Text("Hospitals").foregroundColor(.green)) {
+                            selectedOption = 2
+                            isListOfHospitalPresented.toggle()
+                        }
+                    )
+                }
+
+                .background(
+                    NavigationLink(destination: HospitalListView(selectedHospitals: $selectedhosp), isActive: $isListOfHospitalPresented) {
+                        EmptyView()
+                    }
+                )
+                .background(
+                    NavigationLink(destination: BloodDriveView(), isActive: $IsListOfBloodDrives) {
+                        EmptyView()
+                    }
+                )
+
             Button(action:{
                 BacktoUserView=true
                 
             }){
                 
-                Text("Sign Out")
-                    .font(.headline)
+                Text("Sign out")
                     .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .fontWeight(.bold)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.black)
+                    .frame(height: 50)
+                    .background(Color.white) // Background color
+                    .cornerRadius(15) // Round the corners
+                    .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
                 
             }.background(
                 NavigationLink("", destination: User_View(), isActive: $BacktoUserView)
                     .navigationTitle("")
                 
             )                    .navigationBarBackButtonHidden(false)
-
+           
             
         }
         
@@ -449,22 +144,14 @@ struct WelcomeMenu: View {
 }
     
 
-
-
-//struct RequestPage: View{
-//    var body : some View
-//    {
-//        Text("What is Your BloodType?")
-//
-//
-//    }
-//}
 struct HospitalListView: View {
     @Binding var selectedHospitals: String
     @State var isProfileShown = false
-    let Hospitals = ["Dar El-Fouad", "Army Forces Hospital", "Salam Maadi Hospital","Haram Hopital"]
+    @State private var showHospitalAlert=false
+    @State private var NavigateToWelcome=false
+    let Hospitals = ["Dar El-Fouad", "Army Forces Hospital", "Salam Maadi Hospital","Haram Hopital", "Nasayem", "Souad Kafafi Hospital"]
     var body: some View {
-        Text("Please Choose a hospital to donate to").font(.title3).foregroundColor(.black).fontWeight(.semibold)
+        Text("Please choose a hospital to donate to").font(.title3).foregroundColor(.black).fontWeight(.semibold)
         VStack{
             
             List(Hospitals, id: \.self) { hospital in
@@ -480,10 +167,182 @@ struct HospitalListView: View {
                     }
                 }
             }
+            NavigationLink(destination: WelcomeMenu(), isActive: $NavigateToWelcome) {
+                Button(action: {
+                    showHospitalAlert = true
+                }) {
+                    Text("Confirm donation")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .fontWeight(.bold)
+                        .cornerRadius(15) // Round the corners
+                        .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
+                }
+                .alert(isPresented: $showHospitalAlert) {
+                    Alert(title: Text(""), message: Text("\(selectedHospitals) will Contact you soon"), dismissButton: .default(Text("OK")) {
+                        NavigateToWelcome = true
+                    })
+                }
+            }
             
         }
+        
     }
 }
+struct BloodDriveView: View {
+   
+    @State private var showingMap1 = false
+    @State private var showingMap2 = false
+    @State private var showingMap3 = false
+    @State private var showingMap4 = false
+    @State private var showingMap5 = false
+    @State private var showingMap6 = false
+
+
+    var body: some View {
+          
+        VStack (spacing:2){
+                Text("Please check each bloodmobiles locations")
+                .fontWeight(.semibold)
+                .font(.headline)
+                .padding()
+            
+            Text("\(Image(systemName: "exclamationmark.triangle.fill")) Donation is only available at the location of the BloodMobile")
+                .fontWeight(.light)
+                .font(.headline)
+                .padding()
+
+
+            HStack {
+                Button(action: {
+                    //                        BloodDrive1.toggle()
+                    showingMap1.toggle()
+                }, label: {
+                    Text("Rehab Bloodmobile")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .fontWeight(.bold)
+                        .cornerRadius(15)
+                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                }) .background(
+                    NavigationLink("", destination:MapView(isPresented: $showingMap1, Location: "El-Rehab, New Cairo", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0660, longitude: 31.4856))
+                                                                                                                                        ]), isActive: $showingMap1)
+                    
+                )
+                .padding()
+                
+            }
+            
+            HStack{
+
+                    Button(action: {
+                        showingMap2.toggle()
+                    }, label: {
+                        Text("Dokki Bloodmobile")
+                            .font(.headline)
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .fontWeight(.bold)
+                            .cornerRadius(15)
+                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                    }).padding()
+                        .background(
+                            NavigationLink("", destination:MapView(isPresented: $showingMap2, Location:"Dokki, Giza", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 32, longitude: 28))
+                        ]), isActive: $showingMap2)
+                            
+                        )
+                }
+
+            HStack {
+                Button(action: {
+                    showingMap3.toggle()
+                }, label: {
+                    Text("Agouza Bloodmobile")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .fontWeight(.bold)
+                        .cornerRadius(15)
+                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                }).padding()
+                    .background(
+                        NavigationLink("", destination:MapView(isPresented: $showingMap3, Location: "Agouza, Giza", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0511, longitude: 31.2126))
+                                                                                                                                     ]), isActive: $showingMap3)
+                    )
+            }
+                    HStack{
+                    Button(action: {
+                        showingMap4.toggle()
+                    }, label: {
+                        Text(" 5th Settlement Bloodmobile")
+                            .font(.headline)
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .fontWeight(.bold)
+                            .cornerRadius(15)
+                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                    }).padding()
+                                .background(
+                                    NavigationLink("", destination:MapView(isPresented: $showingMap4, Location: "5th Settlement, New Cairo",annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0085, longitude: 31.4285))
+                                ]), isActive: $showingMap4)
+                                    )
+                }
+            HStack {
+                Button(action: {
+                    showingMap5.toggle()
+                }, label: {
+                    Text(" Zayed Bloodmobile")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .fontWeight(.bold)
+                        .cornerRadius(15)
+                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                }).padding()
+                    .background(
+                        NavigationLink("", destination:MapView(isPresented: $showingMap5, Location: "El-Sheikh Zayed, 6th of October", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0492, longitude: 30.9762))
+                                                                                                                                                        ]), isActive: $showingMap5)
+                    )
+            }
+            HStack{
+                    Button(action: {
+                        showingMap6.toggle()
+                    }, label: {
+                        Text("Haram Bloodmobile")
+                            .font(.headline)
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .fontWeight(.bold)
+                            .cornerRadius(15)
+                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                    }).padding()
+                                .background(
+                                    NavigationLink("", destination:MapView(isPresented: $showingMap6, Location: "Haram, Giza", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 29.977966, longitude: 31.134726))
+                                ]), isActive: $showingMap6)
+                                    )
+                }
+                
+                Spacer()
+        }
+ }
+}
+
 struct BloodTypeSelectionView: View {
     @Binding var selectedBloodType: String
     @State var selectedGender: String = ""
@@ -534,15 +393,16 @@ struct BloodTypeSelectionView: View {
 
    
 struct ProfileView: View {
+    
     @State var UserNames: String
     @State var Email: String
     @State var Phone: String
     @State var Age: Int
     @State var Gender: String
     
-    var body: some View {
+    var body : some View {
         ScrollView {
-            VStack(spacing: 35) {
+            VStack(spacing: 30) {
                 Text("Your Profile").padding()
                     .font(.title3)
                     .fontWeight(.bold)
@@ -551,6 +411,9 @@ struct ProfileView: View {
                     .background(.white)
                     .cornerRadius(30)
                     .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                Image ("me").resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(1).frame(width: 200, height: 300).cornerRadius(8)
                     
                 ProfileInfoView(title: "Name:", content: UserNames)
                 ProfileInfoView(title: "Email:", content: Email)
