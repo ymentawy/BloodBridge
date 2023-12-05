@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Logout from "./pages/Logout.js";
 import Donors from "./pages/Donors.js";
 import LoginSignup from "./pages/LoginSignup.js";
-
+import RequestBlood from "./components/RequestBlood.js";
 function App() {
   const [name, setName] = useState("");
 
@@ -38,6 +38,7 @@ function App() {
             <Route path="/logout" element={<Logout setName={setName} />} />
             <Route path="/donors" element={<Donors name={name} />} />
             <Route path="/inventory" element={<Inventory name={name} />} />
+            <Route path="/request" element={<RequestBlood name={name} />} />
           </Routes>
         </div>
       </BrowserRouter>

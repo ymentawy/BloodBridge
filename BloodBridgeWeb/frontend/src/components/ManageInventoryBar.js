@@ -3,12 +3,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Button } from "@mui/material";
 import { Html5QrcodeScanner } from "html5-qrcode";
+import { useNavigate } from "react-router-dom";
 
 function ManageInventoryBar(props) {
   const [scanResult, setScanResult] = useState(null);
   const [isScanner, setIsScanner] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
+  const navigate = useNavigate();
   let scanner = null;
 
   useEffect(() => {
@@ -66,6 +68,10 @@ function ManageInventoryBar(props) {
       setIsAdd(true);
     }
   };
+  const handleRequest = () => {
+    navigate("/request");
+    window.location.reload();
+  };
 
   const handleButtonClick = (bloodType) => {
     console.log("clicked");
@@ -116,7 +122,7 @@ function ManageInventoryBar(props) {
             backgroundColor: "red",
             width: "200px",
           }}
-          onClick={() => handleButtonClick("Type2")}
+          onClick={() => handleRequest()}
         >
           Request Blood
         </Button>
