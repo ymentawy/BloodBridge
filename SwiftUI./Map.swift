@@ -30,10 +30,12 @@ struct MapView: View {
     var body: some View {
         
         VStack {
+            
             Map(coordinateRegion: $region,  annotationItems: annotationItems) {item in
                 MapPin(coordinate: item.coordinate)
+                
             }
-                .frame(height: 300)
+                .frame(width: 400 ,height: 600)
                 .cornerRadius(10)
                 .padding()
             

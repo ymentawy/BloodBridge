@@ -13,7 +13,7 @@ import MapKit
 struct ContentView: View {
     var body: some View {
         HStack(alignment: .top, content: {
-            User_View()
+            AuthenticationView()
            
         })
     }
@@ -21,8 +21,7 @@ struct ContentView: View {
 
 
 struct WelcomeMenu: View {
-    @State private var isListOfHospitalPresented = false
-    @State private var IsListOfBloodDrives = false
+
     @State private var isConfirmed = false
     @State private var isProfileShown = false
     @State private var userName: String = "Mohamed"
@@ -66,6 +65,7 @@ struct WelcomeMenu: View {
                 .navigationBarTitle("", displayMode: .inline) // Clear the title
                 ) // Align to the trailing edge
             }
+        
             Text("Hello, \(userName)")
                 .font(.largeTitle)
                 .fontWeight(.heavy)
@@ -74,7 +74,7 @@ struct WelcomeMenu: View {
                 .frame()
                 .shadow(color: .gray, radius: 20)
             
-            Image("mainbloocpic").resizable().aspectRatio(contentMode: .fit).padding()
+            Image("Image 2").resizable().aspectRatio(contentMode: .fit).padding()
             
             Button(action: {
                     isAlertPresented = true
@@ -82,40 +82,21 @@ struct WelcomeMenu: View {
                     Text("Donate Now!")
                         .font(.headline)
                         .padding()
-                        .background(Color.red)
+                        .background(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .fontWeight(.bold)
                         .cornerRadius(15)
                         .shadow(color: .gray, radius: 5, x: 0, y: 5)
                 }
-                .alert(isPresented: $isAlertPresented) {
-                    Alert(
-                        title: Text("Choose Donation Type"),
-                        message: Text("Select an option to proceed."),
-                        primaryButton: .default(Text("Bloodmobiles").foregroundColor(.blue)) {
-                            selectedOption = 1
-                            IsListOfBloodDrives.toggle()
-                        },
-                        secondaryButton: .default(Text("Hospitals").foregroundColor(.green)) {
-                            selectedOption = 2
-                            isListOfHospitalPresented.toggle()
-                        }
-                    )
-                }
-
                 .background(
-                    NavigationLink(destination: HospitalListView(selectedHospitals: $selectedhosp), isActive: $isListOfHospitalPresented) {
-                        EmptyView()
-                    }
-                )
-                .background(
-                    NavigationLink(destination: BloodDriveView(), isActive: $IsListOfBloodDrives) {
+                    NavigationLink(destination: ChoiceOfDonation(SelectedChoice: $selectedhosp), isActive: $isAlertPresented){
                         EmptyView()
                     }
                 )
 
             Button(action:{
+                
                 BacktoUserView=true
                 
             }){
@@ -131,7 +112,7 @@ struct WelcomeMenu: View {
                     .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
                 
             }.background(
-                NavigationLink("", destination: User_View(), isActive: $BacktoUserView)
+                NavigationLink("", destination: AuthenticationView(), isActive: $BacktoUserView)
                     .navigationTitle("")
                 
             )                    .navigationBarBackButtonHidden(false)
@@ -142,6 +123,67 @@ struct WelcomeMenu: View {
         
     }
 }
+struct ChoiceOfDonation: View {
+    
+    let Choices = ["BloodDrives", "Hospitals"]
+    @State private var isListOfHospitalPresented = false
+    @State private var IsListOfBloodDrives = false
+    @State private var selectedhosp: String = ""
+    @Binding var SelectedChoice: String
+    
+    var body: some View {
+        Text("Choose Donation Type").font(.headline).fontWeight(.bold)
+        VStack(spacing: 10) {
+            List(Choices, id: \.self) { choice in
+                Button(action: {
+                    SelectedChoice = choice
+                }) {
+                    HStack {
+                        Text(choice).foregroundColor(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
+                        Spacer()
+                        if SelectedChoice == choice {
+                            Image(systemName: "hand.point.left").foregroundColor(.black)
+                        }
+                    }
+                }
+            }
+        }
+        Button(action: {
+            isListOfHospitalPresented = true
+        }) {
+            Text("Confirm Choice") .font(.headline)
+                .font(.headline)
+                .padding()
+                .background(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .fontWeight(.bold)
+                .cornerRadius(20) // Round the corners
+                .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
+        }
+        .disabled(SelectedChoice.isEmpty)
+        .background(
+            NavigationLink(destination: destinationView(), isActive: $isListOfHospitalPresented) {
+                EmptyView()
+            }
+        )
+    }
+    
+    private func destinationView() -> some View {
+        if SelectedChoice == "Hospitals" {
+            return AnyView(HospitalListView(selectedHospitals: $selectedhosp))
+        } else if SelectedChoice == "BloodDrives" {
+            return AnyView(BloodDriveView())
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+    
+}
+
+
+
+
     
 
 struct HospitalListView: View {
@@ -149,9 +191,11 @@ struct HospitalListView: View {
     @State var isProfileShown = false
     @State private var showHospitalAlert=false
     @State private var NavigateToWelcome=false
+      
     let Hospitals = ["Dar El-Fouad", "Army Forces Hospital", "Salam Maadi Hospital","Haram Hopital", "Nasayem", "Souad Kafafi Hospital"]
     var body: some View {
-        Text("Please choose a hospital to donate to").font(.title3).foregroundColor(.black).fontWeight(.semibold)
+        
+        Text(" Choose a hospital to donate to").font(.title3).foregroundColor(.black).fontWeight(.semibold)
         VStack{
             
             List(Hospitals, id: \.self) { hospital in
@@ -159,10 +203,10 @@ struct HospitalListView: View {
                     selectedHospitals = hospital
                 }) {
                     HStack {
-                        Text(hospital).foregroundColor(.red)
+                        Text(hospital).foregroundColor(.black)
                         Spacer()
                         if selectedHospitals == hospital {
-                            Image(systemName: "checkmark")
+                            Image(systemName: "hand.point.left").foregroundColor(.black)
                         }
                     }
                 }
@@ -174,15 +218,15 @@ struct HospitalListView: View {
                     Text("Confirm donation")
                         .font(.headline)
                         .padding()
-                        .background(Color.red)
+                        .background(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .fontWeight(.bold)
-                        .cornerRadius(15) // Round the corners
+                        .cornerRadius(20) // Round the corners
                         .shadow(color: .gray, radius: 5, x: 0, y: 5) // Add a shadow effect
                 }
                 .alert(isPresented: $showHospitalAlert) {
-                    Alert(title: Text(""), message: Text("\(selectedHospitals) will Contact you soon"), dismissButton: .default(Text("OK")) {
+                    Alert(title: Text(""), message: Text("\(selectedHospitals) will contact you soon"), dismissButton: .default(Text("OK")) {
                         NavigateToWelcome = true
                     })
                 }
@@ -192,156 +236,42 @@ struct HospitalListView: View {
         
     }
 }
-struct BloodDriveView: View {
-   
-    @State private var showingMap1 = false
-    @State private var showingMap2 = false
-    @State private var showingMap3 = false
-    @State private var showingMap4 = false
-    @State private var showingMap5 = false
-    @State private var showingMap6 = false
 
+
+struct BloodDriveView: View {
+    let bloodMobileLocations = [
+        ("El-Rehab Bloodmobile", "El-Rehab, New Cairo", CLLocationCoordinate2D(latitude: 30.0660, longitude: 31.4856)),
+        ("El-Dokki Bloodmobile", "Dokki, Giza", CLLocationCoordinate2D(latitude: 30.039451, longitude: 31.2025)),
+        ("Agouza Bloodmobile", "Agouza, Giza", CLLocationCoordinate2D(latitude: 30.0511, longitude: 31.2126)),
+        ("5th Settlement Bloodmobile", "5th Settlement, New Cairo", CLLocationCoordinate2D(latitude: 30.0085, longitude: 31.4285)),
+        ("Zayed Bloodmobile", "El-Sheikh Zayed, 6th of October", CLLocationCoordinate2D(latitude: 30.0492, longitude: 30.9762)),
+        ("Sharm El-Sheikh Bloodmobile", "Khaleej Neama", CLLocationCoordinate2D(latitude: 27.9654, longitude: 34.3618)),
+        ("North Coast Bloodmobile", "North-Coast, Sidi-Abdelrahman", CLLocationCoordinate2D(latitude: 30.91872, longitude: 28.738871)),
+    ]
+    
+    @State private var selectedLocation: String?
+    @State private var isPresentingMapView = false
 
     var body: some View {
-          
-        VStack (spacing:2){
-                Text("Please check each bloodmobiles locations")
-                .fontWeight(.semibold)
-                .font(.headline)
-                .padding()
-            
-            Text("\(Image(systemName: "exclamationmark.triangle.fill")) Donation is only available at the location of the BloodMobile")
-                .fontWeight(.light)
-                .font(.headline)
-                .padding()
-
-
-            HStack {
-                Button(action: {
-                    //                        BloodDrive1.toggle()
-                    showingMap1.toggle()
-                }, label: {
-                    Text("Rehab Bloodmobile")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .fontWeight(.bold)
-                        .cornerRadius(15)
-                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
-                }) .background(
-                    NavigationLink("", destination:MapView(isPresented: $showingMap1, Location: "El-Rehab, New Cairo", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0660, longitude: 31.4856))
-                                                                                                                                        ]), isActive: $showingMap1)
-                    
-                )
-                .padding()
-                
-            }
-            
-            HStack{
-
-                    Button(action: {
-                        showingMap2.toggle()
-                    }, label: {
-                        Text("Dokki Bloodmobile")
+        List {
+            Section(header: Text("⚠️ Donation is only available physically at the location").padding(.bottom)) {
+                ForEach(bloodMobileLocations, id: \.0) { (bloodMobileName, location, coordinate) in
+                    NavigationLink(destination: MapView(isPresented: $isPresentingMapView, Location: location, annotationItems: [MyAnnotationItem(coordinate: coordinate)])) {
+                        Text(bloodMobileName)
                             .font(.headline)
                             .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                             .cornerRadius(10)
-                            .fontWeight(.bold)
-                            .cornerRadius(15)
-                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
-                    }).padding()
-                        .background(
-                            NavigationLink("", destination:MapView(isPresented: $showingMap2, Location:"Dokki, Giza", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 32, longitude: 28))
-                        ]), isActive: $showingMap2)
-                            
-                        )
+                            .shadow(color: .gray, radius: 5, x: 2, y: 2)
+                    }
+                    .buttonStyle(PlainButtonStyle()) // Removes the default button style
                 }
-
-            HStack {
-                Button(action: {
-                    showingMap3.toggle()
-                }, label: {
-                    Text("Agouza Bloodmobile")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .fontWeight(.bold)
-                        .cornerRadius(15)
-                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
-                }).padding()
-                    .background(
-                        NavigationLink("", destination:MapView(isPresented: $showingMap3, Location: "Agouza, Giza", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0511, longitude: 31.2126))
-                                                                                                                                     ]), isActive: $showingMap3)
-                    )
             }
-                    HStack{
-                    Button(action: {
-                        showingMap4.toggle()
-                    }, label: {
-                        Text(" 5th Settlement Bloodmobile")
-                            .font(.headline)
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .fontWeight(.bold)
-                            .cornerRadius(15)
-                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
-                    }).padding()
-                                .background(
-                                    NavigationLink("", destination:MapView(isPresented: $showingMap4, Location: "5th Settlement, New Cairo",annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0085, longitude: 31.4285))
-                                ]), isActive: $showingMap4)
-                                    )
-                }
-            HStack {
-                Button(action: {
-                    showingMap5.toggle()
-                }, label: {
-                    Text(" Zayed Bloodmobile")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .fontWeight(.bold)
-                        .cornerRadius(15)
-                        .shadow(color: .gray, radius: 5, x: 0, y: 5)
-                }).padding()
-                    .background(
-                        NavigationLink("", destination:MapView(isPresented: $showingMap5, Location: "El-Sheikh Zayed, 6th of October", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 30.0492, longitude: 30.9762))
-                                                                                                                                                        ]), isActive: $showingMap5)
-                    )
-            }
-            HStack{
-                    Button(action: {
-                        showingMap6.toggle()
-                    }, label: {
-                        Text("Haram Bloodmobile")
-                            .font(.headline)
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .fontWeight(.bold)
-                            .cornerRadius(15)
-                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
-                    }).padding()
-                                .background(
-                                    NavigationLink("", destination:MapView(isPresented: $showingMap6, Location: "Haram, Giza", annotationItems: [MyAnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 29.977966, longitude: 31.134726))
-                                ]), isActive: $showingMap6)
-                                    )
-                }
-                
-                Spacer()
         }
- }
+        .listStyle(GroupedListStyle())
+    }
 }
+
 
 struct BloodTypeSelectionView: View {
     @Binding var selectedBloodType: String
@@ -351,17 +281,17 @@ struct BloodTypeSelectionView: View {
     
     var body: some View {
         VStack {
-            Text("Please Choose Your Blood Type").fontWeight(.bold).foregroundColor(.black)
+            Text("Choose Your Blood Type").fontWeight(.bold).foregroundColor(.black)
             
             List(bloodTypes, id: \.self) { bloodType in
                 Button(action: {
                     selectedBloodType = bloodType
                 }) {
                     HStack {
-                        Text(bloodType).foregroundColor(.red)
+                        Text(bloodType).foregroundColor(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                         Spacer()
                         if selectedBloodType == bloodType {
-                            Image(systemName: "checkmark")
+                            Image(systemName: "hand.point.left").foregroundColor(.black)
                         }
                     }
                 }
@@ -378,12 +308,12 @@ struct BloodTypeSelectionView: View {
                         .fontWeight(.bold)
                         .frame(maxWidth: 150)
                         .frame(height: 50)
-                        .background(Color.red)
+                        .background(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                         .cornerRadius(20)
                         .shadow(color: .gray, radius: 5, x: 0, y: 5)
                         .padding()
                 }
-            )
+            ).disabled(selectedBloodType.isEmpty)
             
             
         }
@@ -434,7 +364,7 @@ struct ProfileInfoView: View {
             Text(title)
                 .font(.system(size: 18))
                 .fontWeight(.bold)
-                .foregroundColor(.red)
+                .foregroundColor(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                 .padding(.horizontal, 10)
             
             Text(content)
@@ -461,7 +391,7 @@ struct GenderSelectionView: View {
     @State var navigateToLogin = false
     
     var body: some View {
-        Text("Please Choose Your Gender")
+        Text("Choose Your Gender")
             .fontWeight(.bold)
             .foregroundColor(.black)
             .padding()
@@ -472,7 +402,7 @@ struct GenderSelectionView: View {
             }) {
                 HStack {
                     Text(gender)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                     Spacer()
                     if selectedGender == gender {
                         Image(systemName: "checkmark")
@@ -485,7 +415,7 @@ struct GenderSelectionView: View {
                 Isalert = true
             }) {
                 Text("Create Account")
-                    .foregroundColor(.red)
+                    .foregroundColor(Color(hue: 1.0, saturation: 1.0, brightness: 0.681))
                     .fontWeight(.bold)
                     .frame(maxWidth: 200)
                     .frame(height: 50)
@@ -507,13 +437,13 @@ struct GenderSelectionView: View {
 
                    
     
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .preferredColorScheme(.light)
-        ContentView()
-            .preferredColorScheme(.dark)
-    }
-}
-    
 
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//            .preferredColorScheme(.light)
+//        ContentView()
+//            .preferredColorScheme(.dark)
+//    }
+//}
+//    
