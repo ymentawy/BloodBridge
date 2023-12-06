@@ -8,6 +8,7 @@ import mail from "../components/Assets/username.png";
 import namehospital from "../components/Assets/hospital.png";
 import passwordlogo from "../components/Assets/padlock.png";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 const LoginSignup = (props) => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const LoginSignup = (props) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const submitReg = async (e) => {
     if (action === "Register") {
@@ -152,10 +154,28 @@ const LoginSignup = (props) => {
         <div className="input">
           <img src={passwordlogo} style={{ width: 60, height: 60 }} alt="" />
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+          />
+          <Typography
+            htmlFor="check"
+            style={{ fontSize: "small", color: "grey" }}
+          >
+            Show
+          </Typography>
+          <input
+            id="check"
+            type="checkbox"
+            value={showPassword}
+            onChange={() => setShowPassword((prev) => !prev)}
+            style={{
+              width: "40px",
+              height: "40px",
+              marginLeft: "10px",
+              marginRight: "20px",
+            }}
           />
         </div>
       </div>

@@ -7,9 +7,6 @@ function RequestSent(props) {
   const handleDismiss = () => {
     props.handleDismiss();
   };
-  useEffect(() => {
-    window.location.reload();
-  }, []);
   return (
     <div className="overlay">
       <div className="modalContainer">
